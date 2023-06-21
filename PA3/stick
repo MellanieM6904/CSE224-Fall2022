@@ -1,0 +1,92 @@
+#!/bin/bash
+
+#Name: Mellanie Martin
+#Course: CSE224 - Programming Tools
+#Date: 11/3/22
+#Assignment: PA3
+#Summary:  stick picking game in bash; whoever takes the last out of num sticks wins; human vs computer
+
+# STICK COUNT SELECTION #
+
+echo "Hi! Welcome to the stick game!"
+if [[ $# -eq 1 ]]
+then
+	num="$1"
+	echo "You chose to play with $num sticks!"
+fi
+
+if [[ $# -eq 0 ]]
+then
+	echo -n "Enter the number of sticks you would like to play with: "
+	read num
+	echo "You chose to play with $num sticks!"
+fi
+
+if [[ $num -lt 5 ]] # check sticks is >= 5
+then
+	echo "Sorry, you must play with at least 5 sticks."
+	exit
+fi
+
+# GAMEPLAY #
+
+while [[ 1 == 1 ]] # gameplay loop
+do
+	#player turn
+	while [[ 1 == 1 ]]
+	do
+		echo -n "Player's turn! How many sticks would you like to take: "
+		read PlayerSticks
+		if [[ $PlayerSticks -lt 5 ]]
+		then
+			echo "You took $PlayerSticks sticks!"
+			break
+		else
+			continue
+		fi
+	done
+	num=$((num-PlayerSticks))
+	i=0 # stick print control value
+
+	if [[ $num -eq 0 ]]
+	then
+		echo "Player win!"
+		break
+	else
+		while [[ $i -lt $num ]]
+		do
+			echo -n "|"
+			i=$((i+1))
+		done
+		echo "($num)"
+	fi
+
+	#computer turn
+	compSticks=$((num%5))
+	if [[ $compSticks -eq 0 ]]
+	then
+		echo "Computer took 1 stick!"
+		num=$((num-1))
+	else
+		echo "Computer took $compSticks!"
+		num=$((num-compSticks))
+	fi
+		
+	i=0 # stick print control value
+
+	if [[ $num -eq 0 ]]
+        then
+		echo "Computer win!"
+		break
+        else
+                while [[ $i -lt $num ]]
+                do
+			echo -n "|"
+                        i=$((i+1))
+                done
+		echo "($num)"
+        fi
+
+
+
+done
