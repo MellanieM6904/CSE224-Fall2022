@@ -1,0 +1,71 @@
+#!/bin/bash
+
+#Name: Mellanie Martin
+#Course: CSE224 - Programming tools
+#Date: 11/11/22
+#Summary:highlow game,computer tries to guess the number the user is thinking of
+
+# check for CLA #
+
+low=1
+
+if [[ $# -eq 0 ]] # setting the limit
+then
+	high=100
+else
+	high="$1"
+fi
+
+echo "Hello! Think of a number between 1 and $high (inclusive). Hit any key when ready."
+read -n 1 anyChar
+
+guessAttempt=1 # variable that tracks how many guesses were made
+
+# Gameplay Loop #
+
+while [[ 1 == 1 ]]
+do
+
+	if [[ $high -lt $low ]] # cheating catch
+	then
+		echo ""
+		echo "CHEATING DETECTED"
+		sleep 1
+		echo "GAME WILL IMPLODE IN"
+		sleep 1
+		echo "3..."
+		sleep 1
+		echo "2..."
+		sleep 1
+		echo "...1!"
+		exit
+	fi
+
+	guess=$((($high+$low)/2)) # algorithm
+	echo ""
+	echo "Is $guess your number? Enter l (low), h (high), or c (correct)."
+	read -n 1 LHC
+
+	if [[ "$LHC" == "l" ]] # if guessed number is low
+	then
+		low=$(($guess+1))
+		guessAttempt=$(($guessAttempt+1))
+		continue		
+	elif [[ "$LHC" == "h" ]] # if guessed number is high
+	then
+		high=$(($guess-1))
+		guessAttempt=$(($guessAttempt+1))
+		continue
+	elif [[ "$LHC" == "c" ]] # if guessed number is correct
+	then
+		echo ""
+		echo "Your number is $guess!"
+		echo "It took the computer $guessAttempt guesses."
+		break
+	else
+		echo ""
+		echo "Please enter l (low), h (high), or c (correct)." # if input is something other than l, h, or c
+		continue
+	fi
+
+done	
